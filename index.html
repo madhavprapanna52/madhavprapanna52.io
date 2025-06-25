@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Madhav Rimal | Portfolio</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-start: #000000;
+      --bg-end: #311b92;
+      --accent: #ffd600;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --blur: 10px;
+    }
+
+    /* ===== Reset & Base ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #fff;
+      line-height: 1.6;
+      background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      overflow-x: hidden;
+    }
+
+    /* ===== Starfield Background ===== */
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: transparent;
+      pointer-events: none;
+      animation: starMove 100s linear infinite;
+    }
+    body::before {
+      background: url('https://raw.githubusercontent.com/kleo/stellar-background/master/starfield.png') repeat;
+      opacity: 0.4;
+      transform: translateZ(0);
+    }
+    body::after {
+      background: url('https://raw.githubusercontent.com/kleo/stellar-background/master/starfield.png') repeat;
+      opacity: 0.2;
+      animation-duration: 200s;
+      transform: translateZ(0);
+    }
+    @keyframes starMove {
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(-50%, -50%, 0); }
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.1rem 4vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      backdrop-filter: blur(var(--blur));
+      background: rgba(13, 71, 161, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 1.2rem;
+    }
+    .brand span { color: var(--accent); }
+    .nav-links a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 4vw;
+      position: relative;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 8vw, 4.8rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      max-width: 800px;
+    }
+    .cta {
+      margin-top: 2rem;
+    }
+    .btn {
+      padding: 0.85rem 2.2rem;
+      border: none;
+      border-radius: 50px;
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    }
+
+    /* ===== Sections ===== */
+    section {
+      padding: 4.5rem 4vw;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    section h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 60%;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+    .glass {
+      background: var(--card-bg);
+      backdrop-filter: blur(var(--blur));
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    ul { list-style: none; }
+    li { margin-bottom: 0.5rem; }
+    .highlight { color: var(--accent); }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      backdrop-filter: blur(var(--blur));
+      background: rgba(0,0,0,0.4);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* ===== Scroll Reveal ===== */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ===== Responsive ===== */
+    @media(max-width: 768px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="brand">Jai <span>Shriman</span> Narayana</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#projects">Projects</a>
+      <a href="#hobbies">Hobbies</a>
+      <a href="#awards">Awards</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1>I'm <span>Madhav Rimal</span></h1>
+    <p>On a mission to make this world a better place by serving my nation and the planet as a whole through knowledge, creativity & service.</p>
+    <div class="cta">
+      <a href="#projects" class="btn">Explore My Work</a>
+    </div>
+  </header>
+
+  <!-- About / Vision -->
+  <section id="about" class="glass reveal">
+    <h2>Vision</h2>
+    <p>My vision of life is to make this world a better place—to serve my nation and the planet as a whole through <span class="highlight">knowledge, creativity, and service</span>.</p>
+    <br>
+    <h3>Contact</h3>
+    <ul>
+      <li><span class="highlight">Address:</span> 100 Kirtan Kunj, Mathura, 281121</li>
+      <li><span class="highlight">Phone:</span> 6397123932</li>
+      <li><span class="highlight">Email:</span> <a href="mailto:madhavprapanna@gmail.com" style="color: var(--accent); text-decoration:none;">madhavprapanna@gmail.com</a></li>
+    </ul>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="glass reveal">
+    <h2>Skills</h2>
+    <ul>
+      <li>Programming: <span class="highlight">Python</span> (3+ years), Java</li>
+      <li>System Commands: Linux user and contributor (Garuda Linux)</li>
+      <li>DBMS</li>
+      <li>Full Front‑End Development with Custom JS Library (<span class="highlight">Shrisamaksha</span>) – in development</li>
+    </ul>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="glass reveal">
+    <h2>Education</h2>
+    <ul>
+      <li>BA Honours in Sanskrit Sahitya (2024–2028)</li>
+      <li>BSc in Data Science (2024–2028), Online IITM Student</li>
+    </ul>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="glass reveal">
+    <h2>Projects</h2>
+    <ul>
+      <li><strong>Bone Age Prediction Tool:</strong> A machine learning project for bone age prediction using X‑ray images.</li>
+      <li><strong>Matsya Jaal:</strong> A phishing email detector system.</li>
+      <li><strong>Face Detection Tool:</strong> Built with a pretrained OpenCV model for face detection.</li>
+      <li><strong>Ganit Chakshu:</strong> Custom library for data handling and insights (in progress).</li>
+      <li><strong>Vyakaran Engine:</strong> Sanskrit NLP tool for research (in development).</li>
+      <li><strong>Physics Question Solver:</strong> Tool for solving basic physics questions.</li>
+    </ul>
+  </section>
+
+  <!-- Hobbies -->
+  <section id="hobbies" class="glass reveal">
+    <h2>Hobbies & Interests</h2>
+    <ul>
+      <li>Singing (Indian Classical)</li>
+      <li>Drawing & Digital Art</li>
+      <li>Video Editing</li>
+      <li>Content Creation</li>
+      <li>AI Agents Automation</li>
+      <li>Book Writing (Author of <em>Hinduism Vigyanam</em> on Brebooks.com)</li>
+      <li>Fitness (4+ years: Yoga, Cardio, Vyayam)</li>
+      <li>Public Speaking</li>
+    </ul>
+  </section>
+
+  <!-- Awards -->
+  <section id="awards" class="glass reveal">
+    <h2>Awards & Achievements</h2>
+    <ul>
+      <li>CSU Bhopal Sangeet Gayan – 3rd Position</li>
+      <li>District Level – 2nd Prize in Drawing</li>
+      <li>Interschool Champion</li>
+    </ul>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Madhav Rimal &nbsp;|&nbsp; Jai Shriman Narayana
+  </footer>
+
+  <!-- ===== Scripts ===== -->
+  <script>
+    // Smooth reveal on scroll
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
