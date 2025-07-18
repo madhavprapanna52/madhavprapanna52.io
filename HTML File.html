@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Madhav Rimal | Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Three.js for 3D Earth -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+
+  <style>
+    :root {
+      --primary-bg: #0a0a0a;
+      --secondary-bg: #1a1a2e;
+      --accent: #00ffcc;
+      --accent-dark: #00d4aa;
+      --accent-light: #33ffdd;
+      --text-primary: #ffffff;
+      --text-secondary: #b8c5d1;
+      --text-muted: #8892a0;
+      --card-bg: rgba(255, 255, 255, 0.06);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --shadow-light: 0 4px 20px rgba(0, 255, 204, 0.1);
+      --shadow-medium: 0 8px 40px rgba(0, 255, 204, 0.2);
+      --shadow-heavy: 0 12px 60px rgba(0, 255, 204, 0.3);
+      --blur: 20px;
+      --border-radius: 16px;
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 2rem;
+      --spacing-lg: 3rem;
+      --spacing-xl: 4rem;
+      --spacing-xxl: 6rem;
+    }
+
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(ellipse at center, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-weight: 400;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Improved Typography */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: var(--spacing-sm);
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: var(--spacing-md);
+      color: var(--text-secondary);
+    }
+
+    /* Enhanced 3D Canvas with Parallax */
+    #earth-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.4;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Parallax Background Layers */
+    .parallax-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120%;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(0, 255, 204, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(102, 51, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(255, 107, 107, 0.05) 0%, transparent 50%);
+      will-change: transform;
+    }
+
+    /* Enhanced Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: var(--spacing-sm) 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(var(--blur));
+      background: rgba(10, 10, 10, 0.8);
+      border-bottom: 1px solid var(--card-border);
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      padding: var(--spacing-xs) 5vw;
+      background: rgba(10, 10, 10, 0.95);
+      box-shadow: var(--shadow-light);
+    }
+
+    .brand {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 0.5px;
+      color: var(--text-primary);
+      text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: var(--spacing-lg);
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      position: relative;
+      transition: all 0.3s ease;
+      padding: var(--spacing-xs) 0;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Enhanced Hero Section with Parallax */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 5vw;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      transform: translateY(0);
+      transition: transform 0.6s ease;
+    }
+
+    .photo-container {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 4px solid var(--accent);
+      margin: 0 auto var(--spacing-lg);
+      overflow: hidden;
+      box-shadow:
+        0 0 0 4px rgba(0, 255, 204, 0.2),
+        0 0 40px rgba(0, 255, 204, 0.4),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+      background: var(--card-bg);
+      transition: all 0.5s ease;
+      position: relative;
+      backdrop-filter: blur(10px);
+    }
+
+    .photo-container:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 0 0 6px rgba(0, 255, 204, 0.3),
+        0 0 60px rgba(0, 255, 204, 0.6),
+        0 12px 48px rgba(0, 0, 0, 0.4);
+    }
+
+    .photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .photo-container:hover img {
+      transform: scale(1.1);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: var(--spacing-sm);
+      background: linear-gradient(135deg, var(--accent), var(--accent-light), #ff6b6b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: none;
+      animation: textShine 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes textShine {
+      0% { filter: brightness(1); }
+      100% { filter: brightness(1.2); }
+    }
+
+    .hero p {
+      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-lg);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Enhanced CTA Buttons */
+    .cta {
+      display: flex;
+      gap: var(--spacing-sm);
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: var(--spacing-md);
+    }
+
+    .btn {
+      padding: var(--spacing-sm) var(--spacing-lg);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Orbitron', monospace;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: var(--primary-bg);
+      box-shadow: var(--shadow-light);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border: 2px solid var(--accent);
+      box-shadow: var(--shadow-light);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    /* Enhanced Sections with Parallax */
+    .section {
+      padding: var(--spacing-xxl) 5vw;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(80px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .section-content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-content.slide-left {
+      transform: translateX(-80px);
+    }
+
+    .section-content.slide-right {
+      transform: translateX(80px);
+    }
+
+    .section-content.slide-left.visible,
+    .section-content.slide-right.visible {
+      transform: translateX(0);
+    }
+
+    /* Enhanced Glass Cards */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(var(--blur));
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-light);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.05), transparent);
+      transition: left 0.8s ease;
+    }
+
+    .glass:hover::before {
+      left: 100%;
+    }
+
+    .glass:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-medium);
+      border-color: rgba(0, 255, 204, 0.3);
+    }
+
+    .section h2 {
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      color: var(--accent);
+      text-align: center;
+      margin-bottom: var(--spacing-lg);
+      text-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+    }
+
+    /* Enhanced Lists */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .feature-list li {
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      padding-left: var(--spacing-md);
+    }
+
+    .feature-list li::before {
+      content: '▶';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-list li:hover {
+      color: var(--accent);
+      transform: translateX(10px);
+      padding-left: var(--spacing-lg);
+    }
+
+    .feature-list li:hover::before {
+      transform: translateX(10px);
+    }
+
+    .highlight {
+      color: var(--accent);
+      font-weight: 600;
+      text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+    }
+
+    /* Enhanced Project Grid */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-lg);
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 255, 204, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: var(--shadow-heavy);
+      border-color: rgba(0, 255, 204, 0.5);
+    }
+
+    .project-card h3 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin-bottom: var(--spacing-sm);
+      transition: color 0.3s ease;
+    }
+
+    .project-card:hover h3 {
+      color: var(--accent-light);
+    }
+
+    .project-card p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Enhanced Footer */
+    footer {
+      background: var(--card-bg);
+      border-top: 1px solid var(--card-border);
+      padding: var(--spacing-lg) 5vw;
+      text-align: center;
+      backdrop-filter: blur(var(--blur));
+    }
+
+    /* Enhanced Responsive Design */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: var(--spacing-xs);
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: var(--text-primary);
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(var(--blur));
+        flex-direction: column;
+        padding: var(--spacing-md);
+        gap: var(--spacing-md);
+        text-align: center;
+        border-top: 1px solid var(--card-border);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .photo-container {
+        width: 180px;
+        height: 180px;
+      }
+
+      .cta {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .section {
+        padding: var(--spacing-xl) 5vw;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Scroll Animations */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Parallax Background -->
+  <div class="parallax-bg"></div>
+
+  <!-- 3D Earth Background -->
+  <canvas id="earth-canvas"></canvas>
+
+  <!-- Enhanced Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="brand">Madhav <span>Rimal</span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#exploring">Exploring</a>
+      <a href="#projects">Projects</a>
+      <a href="#passions">Passions</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Enhanced Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="photo-container">
+        <img src="/home/madhavr/Downloads/gg.jpeg" alt="Madhav Rimal">
+      </div>
+      <h1>Jai Shrimannarayan, I'm <span>Madhav Rimal</span></h1>
+      <p>A passionate Data Science and Sanskrit Sahitya student, masterfully blending the timeless wisdom of ancient texts with cutting-edge technology to create innovative solutions for tomorrow's challenges.</p>
+      <div class="cta">
+        <a href="#projects" class="btn btn-primary">Explore My Work</a>
+        <a href="#contact" class="btn btn-secondary">Let's Connect</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section" id="about">
+    <div class="section-content">
+      <div class="glass">
+        <h2>About Me</h2>
+        <p>I am embarking on a unique dual academic journey, pursuing both a <span class="highlight">BSc in Data Science from the prestigious IIT Madras</span> and a <span class="highlight">BA Honours in Sanskrit Sahitya</span>. This distinctive combination empowers me to explore the fascinating intersection where ancient wisdom meets modern innovation.</p>
+        <p>My vision extends beyond traditional boundaries—I aim to revolutionize how we approach technology by infusing it with the profound insights of our cultural heritage. Through this synthesis, I aspire to contribute meaningfully to Sanskrit-Tech, Machine Learning, Robotics, and Indic-AI projects that can transform our world.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exploring Section -->
+  <section class="section" id="exploring">
+    <div class="section-content slide-left">
+      <div class="glass">
+        <h2>Currently Exploring</h2>
+        <ul class="feature-list">
+          <li><span class="highlight">Machine Learning & AI Applications</span><br>Developing intelligent systems that solve complex real-world problems with precision and innovation</li>
+          <li><span class="highlight">Sanskrit NLP & Indic Language Modelling</span><br>Leveraging cutting-edge technology to preserve, analyze, and unlock the treasures of ancient Sanskrit texts</li>
+          <li><span class="highlight">Indian Classical Music (Shastriya Sangeet)</span><br>Immersing myself in the mathematical precision and spiritual depth of our musical traditions</li>
+          <li><span class="highlight">Low-level Programming & Frontend Engineering</span><br>Crafting efficient, elegant, and user-centric digital experiences from the ground up</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="section" id="projects">
+    <div class="section-content slide-right">
+      <div class="glass">
+        <h2>Featured Projects</h2>
+        <div class="project-grid">
+          <div class="project-card">
+            <h3>Bone Age Prediction (ML)</h3>
+            <p>An advanced machine learning tool that estimates skeletal age from X-ray images, providing crucial support for medical diagnostics and pediatric healthcare professionals.</p>
+          </div>
+          <div class="project-card">
+            <h3>Phishing Email Detector</h3>
+            <p>A sophisticated AI-powered system that identifies and neutralizes malicious phishing attempts using advanced natural language processing and pattern recognition techniques.</p>
+          </div>
+          <div class="project-card">
+            <h3>Face-Based Attendance System</h3>
+            <p>An intelligent automated attendance tracking system leveraging state-of-the-art facial recognition technology for enhanced accuracy and efficiency in institutional settings.</p>
+          </div>
+          <div class="project-card">
+            <h3>MathStatEngine (In Progress)</h3>
+            <p>A comprehensive custom library designed for advanced mathematical and statistical computations, tailored for researchers and data scientists working with complex analytical tasks.</p>
+          </div>
+          <div class="project-card">
+            <h3>Vyakaran Engine (In Development)</h3>
+            <p>A groundbreaking Natural Language Processing tool specifically designed for comprehensive Sanskrit grammatical analysis, supporting researchers in linguistic and textual studies.</p>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: var(--spacing-lg);">
+          <a href="https://github.com/madhavprapanna52?tab=projects" class="btn btn-primary" target="_blank">View More on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Passions Section -->
+  <section class="section" id="passions">
+    <div class="section-content slide-left">
+      <div class="glass">
+        <h2>Passions & Interests</h2>
+        <ul class="feature-list">
+          <li><span class="highlight">Creative Arts & Design</span><br>Expressing creativity through sketching, visual design, and digital art that bridges traditional and contemporary aesthetics</li>
+          <li><span class="highlight">Indian Classical Music</span><br>Dedicated practitioner of Shastriya Sangeet for over 2 years, exploring the mathematical beauty and spiritual depth of our musical heritage</li>
+          <li><span class="highlight">Wellness & Physical Fitness</span><br>Maintaining balance through regular yoga practice, vyayam, and active participation in volleyball and cricket</li>
+          <li><span class="highlight">Competitive Gaming</span><br>Strategic thinking and teamwork development through Free Fire eSports competitions</li>
+          <li><span class="highlight">Content Creation & Writing</span><br>Sharing knowledge through writing, including authoring "Hinduism Vigyanam" and creating educational video content</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <div class="section-content">
+      <div class="glass">
+        <h2>Let's Connect & Create</h2>
+        <p style="text-align: center; font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+          I'm always excited to collaborate on innovative projects that merge technology with cultural wisdom. Whether you're interested in Sanskrit-Tech, Machine Learning, Robotics, or Indic-AI applications, let's connect and build something extraordinary together.
+        </p>
+        <div style="text-align: center; margin-top: var(--spacing-lg);">
+          <a href="mailto:madhavprapanna@gmail.com" class="btn btn-primary">madhavprapanna@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Enhanced Footer -->
+  <footer>
+    <p>&copy; 2025 Madhav Rimal | Jai Shriman Narayana</p>
+  </footer>
+
+  <!-- Enhanced Scripts -->
+  <script>
+    // Enhanced 3D Earth with Parallax
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({
+      canvas: document.getElementById('earth-canvas'),
+      antialias: true,
+      alpha: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    camera.position.z = 3;
+
+    // Enhanced Earth with better lighting
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load('https://threejs.org/examples/textures/land_ocean_ice_cloud_2048.jpg');
+    const earthGeometry = new THREE.SphereGeometry(1, 64, 64);
+    const earthMaterial = new THREE.MeshPhongMaterial({
+      map: earthTexture,
+      shininess: 100,
+      transparent: true,
+      opacity: 0.8
+    });
+    const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+    scene.add(earth);
+
+    // Enhanced Lighting
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 3, 5);
+    scene.add(directionalLight);
+
+    const pointLight = new THREE.PointLight(0x00ffcc, 0.5, 100);
+    pointLight.position.set(-5, -3, -5);
+    scene.add(pointLight);
+
+    // Enhanced Controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enablePan = false;
+    controls.enableZoom = false;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      earth.rotation.y += 0.001;
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Parallax Effects
+    let ticking = false;
+
+    function updateParallax() {
+      const scrolled = window.pageYOffset;
+      const parallaxBg = document.querySelector('.parallax-bg');
+      const earthCanvas = document.getElementById('earth-canvas');
+
+      if (parallaxBg) {
+        parallaxBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+      }
+
+      if (earthCanvas) {
+        earthCanvas.style.transform = `translateY(${scrolled * 0.3}px)`;
+      }
+
+      ticking = false;
+    }
+
+    function requestParallaxUpdate() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }
+
+    // Enhanced Scroll Animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Navbar Scroll Effect
+    function handleNavbarScroll() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }
+
+    // Enhanced Mobile Menu
+    function setupMobileMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
+      });
+
+      // Close menu when clicking on a link
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          hamburger.classList.remove('active');
+        });
+      });
+    }
+
+    // Window Resize Handler
+    function handleResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    // Initialize Everything
+    document.addEventListener('DOMContentLoaded', function() {
+      // Setup scroll animations
+      document.querySelectorAll('.section-content').forEach(section => {
+        observer.observe(section);
+      });
+
+      setupMobileMenu();
+
+      // Smooth scroll for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+
+    // Event Listeners
+    window.addEventListener('scroll', () => {
+      requestParallaxUpdate();
+      handleNavbarScroll();
+    });
+
+    window.addEventListener('resize', handleResize);
+
+    // Performance optimization
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+  </script>
+</body>
+</html>
