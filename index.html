@@ -2,1037 +2,182 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Madhav Rimal | Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Madhav Rimal – Portfolio</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Three.js for 3D Earth -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --primary-bg: #0a0a0a;
-      --secondary-bg: #1a1a2e;
-      --accent: #00ffcc;
-      --accent-dark: #00d4aa;
-      --accent-light: #33ffdd;
-      --text-primary: #ffffff;
-      --text-secondary: #b8c5d1;
-      --text-muted: #8892a0;
-      --card-bg: rgba(255, 255, 255, 0.06);
-      --card-border: rgba(255, 255, 255, 0.12);
-      --glass-bg: rgba(255, 255, 255, 0.03);
-      --shadow-light: 0 4px 20px rgba(0, 255, 204, 0.1);
-      --shadow-medium: 0 8px 40px rgba(0, 255, 204, 0.2);
-      --shadow-heavy: 0 12px 60px rgba(0, 255, 204, 0.3);
-      --blur: 20px;
-      --border-radius: 16px;
-      --spacing-xs: 0.5rem;
-      --spacing-sm: 1rem;
-      --spacing-md: 2rem;
-      --spacing-lg: 3rem;
-      --spacing-xl: 4rem;
-      --spacing-xxl: 6rem;
-    }
-
-    /* Reset & Base Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--primary-bg);
-      color: var(--text-primary);
-      line-height: 1.7;
-      font-weight: 400;
-      overflow-x: hidden;
-      position: relative;
-      min-height: 100vh;
-    }
-
-    /* Enhanced Background with Multiple Layers */
-    .background-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -3;
-      background: 
-        radial-gradient(ellipse at top, var(--secondary-bg) 0%, var(--primary-bg) 50%),
-        radial-gradient(ellipse at bottom, var(--primary-bg) 0%, #0f0f23 100%);
-    }
-
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      pointer-events: none;
-    }
-
-    .particle {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: float 20s infinite linear;
-      opacity: 0.3;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.3;
-      }
-      90% {
-        opacity: 0.3;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    /* Enhanced 3D Canvas */
-    #earth-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-      filter: blur(0.5px);
-    }
-
-    /* Improved Typography */
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Orbitron', monospace;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: var(--spacing-sm);
-      letter-spacing: -0.02em;
-    }
-
-    p {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      margin-bottom: var(--spacing-md);
-      color: var(--text-secondary);
-    }
-
-    /* Enhanced Navbar */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: var(--spacing-sm) 5vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      backdrop-filter: blur(var(--blur));
-      background: rgba(10, 10, 10, 0.8);
-      border-bottom: 1px solid var(--card-border);
-      transition: all 0.3s ease;
-    }
-
-    .navbar.scrolled {
-      padding: var(--spacing-xs) 5vw;
-      background: rgba(10, 10, 10, 0.95);
-      box-shadow: var(--shadow-light);
-    }
-
-    .brand {
-      font-family: 'Orbitron', monospace;
-      font-weight: 700;
-      font-size: 1.5rem;
-      letter-spacing: 0.5px;
-      color: var(--text-primary);
-      text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes glow {
-      from { text-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
-      to { text-shadow: 0 0 20px rgba(0, 255, 204, 0.8); }
-    }
-
-    .brand span {
-      color: var(--accent);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: var(--spacing-lg);
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1rem;
-      position: relative;
-      transition: all 0.3s ease;
-      padding: var(--spacing-xs) 0;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-light));
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    /* Enhanced Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 0 5vw;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-      transform: translateY(50px);
-      opacity: 0;
-      animation: heroFadeIn 1s ease-out 0.5s forwards;
-    }
-
-    @keyframes heroFadeIn {
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .photo-container {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      border: 4px solid var(--accent);
-      margin: 0 auto var(--spacing-lg);
-      overflow: hidden;
-      box-shadow:
-        0 0 0 4px rgba(0, 255, 204, 0.2),
-        0 0 40px rgba(0, 255, 204, 0.4),
-        0 8px 32px rgba(0, 0, 0, 0.3);
-      background: var(--card-bg);
-      transition: all 0.5s ease;
-      position: relative;
-      backdrop-filter: blur(10px);
-      animation: pulse 3s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .photo-container:hover {
-      transform: scale(1.1);
-      box-shadow:
-        0 0 0 6px rgba(0, 255, 204, 0.3),
-        0 0 60px rgba(0, 255, 204, 0.6),
-        0 12px 48px rgba(0, 0, 0, 0.4);
-      animation: none;
-    }
-
-    .photo-container::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: conic-gradient(from 0deg, var(--accent), var(--accent-light), var(--accent), var(--accent-dark));
-      border-radius: 50%;
-      z-index: -1;
-      animation: rotate 4s linear infinite;
-    }
-
-    @keyframes rotate {
-      to { transform: rotate(360deg); }
-    }
-
-    .photo-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-      border-radius: 50%;
-    }
-
-    .photo-container:hover img {
-      transform: scale(1.1);
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      margin-bottom: var(--spacing-sm);
-      background: linear-gradient(135deg, var(--accent), var(--accent-light), #ff6b6b);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: textShine 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes textShine {
-      0% { filter: brightness(1); }
-      100% { filter: brightness(1.2); }
-    }
-
-    .hero p {
-      font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-      color: var(--text-secondary);
-      margin-bottom: var(--spacing-lg);
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      animation: fadeInUp 1s ease-out 1s both;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Enhanced CTA Buttons */
-    .cta {
-      display: flex;
-      gap: var(--spacing-sm);
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: var(--spacing-md);
-      animation: fadeInUp 1s ease-out 1.5s both;
-    }
-
-    .btn {
-      padding: var(--spacing-sm) var(--spacing-lg);
-      border: none;
-      border-radius: 50px;
-      font-family: 'Orbitron', monospace;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-      color: var(--primary-bg);
-      box-shadow: var(--shadow-light);
-    }
-
-    .btn-secondary {
-      background: var(--card-bg);
-      color: var(--text-primary);
-      border: 2px solid var(--accent);
-      box-shadow: var(--shadow-light);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-medium);
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    /* Enhanced Sections */
-    .section {
-      padding: var(--spacing-xxl) 5vw;
-      position: relative;
-      z-index: 1;
-    }
-
-    .section-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      opacity: 0;
-      transform: translateY(80px);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .section-content.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .section-content.slide-left {
-      transform: translateX(-80px);
-    }
-
-    .section-content.slide-right {
-      transform: translateX(80px);
-    }
-
-    .section-content.slide-left.visible,
-    .section-content.slide-right.visible {
-      transform: translateX(0);
-    }
-
-    /* Enhanced Glass Cards */
-    .glass {
-      background: var(--glass-bg);
-      backdrop-filter: blur(var(--blur));
-      border-radius: var(--border-radius);
-      padding: var(--spacing-lg);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--shadow-light);
-      transition: all heaven: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .glass::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.05), transparent);
-      transition: left 0.8s ease;
-    }
-
-    .glass:hover::before {
-      left: 100%;
-    }
-
-    .glass:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-medium);
-      border-color: rgba(0, 255, 204, 0.3);
-    }
-
-    .section h2 {
-      font-size: clamp(2.2rem, 5vw, 3rem);
-      color: var(--accent);
-      text-align: center;
-      margin-bottom: var(--spacing-lg);
-      text-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
-    }
-
-    /* Enhanced Lists */
-    .feature-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .feature-list li {
-      padding: var(--spacing-sm) 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-      position: relative;
-      padding-left: var(--spacing-md);
-      opacity: 0;
-      animation: slideInLeft 0.6s ease-out forwards;
-    }
-
-    .feature-list li:nth-child(1) { animation-delay: 0.1s; }
-    .feature-list li:nth-child(2) { animation-delay: 0.2s; }
-    .feature-list li:nth-child(3) { animation-delay: 0.3s; }
-    .feature-list li:nth-child(4) { animation-delay: 0.4s; }
-    .feature-list li:nth-child(5) { animation-delay: 0.5s; }
-
-    @keyframes slideInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .feature-list li::before {
-      content: '▶';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-size: 0.8rem;
-      transition: transform 0.3s ease;
-    }
-
-    .feature-list li:hover {
-      color: var(--accent);
-      transform: translateX(10px);
-      padding-left: var(--spacing-lg);
-    }
-
-    .feature-list li:hover::before {
-      transform: translateX(10px);
-    }
-
-    .highlight {
-      color: var(--accent);
-      font-weight: 600;
-      text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
-    }
-
-    /* Enhanced Project Grid */
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: var(--spacing-md);
-      margin-top: var(--spacing-lg);
-    }
-
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--border-radius);
-      padding: var(--spacing-md);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      transform: scale(0.8);
-      animation: scaleIn 0.6s ease-out forwards;
-    }
-
-    .project-card:nth-child(1) { animation-delay: 0.1s; }
-    .projectuninhabited island: The island was so small that I couldn’t see the shore from where I was. I kept going anyway.
-    .project-card:nth-child(2) { animation-delay: 0.2s; }
-    .project-card:nth-child(3) { animation-delay: 0.3s; }
-    .project-card:nth-child(4) { animation-delay: 0.4s; }
-    .project-card:nth-child(5) { animation-delay: 0.5s; }
-
-    @keyframes scaleIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(0, 255, 204, 0.1) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-    }
-
-    .project-card:hover::before {
-      opacity: 1;
-    }
-
-    .project-card:hover {
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: var(--shadow-heavy);
-      border-color: rgba(0, 255, 204, 0.5);
-    }
-
-    .project-card h3 {
-      color: var(--accent);
-      font-size: 1.3rem;
-      margin-bottom: var(--spacing-sm);
-      transition: color 0.3s ease;
-    }
-
-    .project-card:hover h3 {
-      color: var(--accent-light);
-    }
-
-    .project-card p {
-      color: var(--text-secondary);
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-
-    /* Enhanced Footer */
-    footer {
-      background: var(--card-bg);
-      border-top: 1px solid var(--card-border);
-      padding: var(--spacing-lg) 5vw;
-      text-align: center;
-      backdrop-filter: blur(var(--blur));
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Mobile Menu */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      padding: var(--spacing-xs);
-    }
-
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: var(--text-primary);
-      margin: 3px 0;
-      transition: 0.3s;
-      border-radius: 2px;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(-45deg) translate(-5px, 6px);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(45deg) translate(-5px, -6px);
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        position: fixed;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background: rgba(10, 10, 10, 0.95);
-        backdrop-filter: blur(var(--blur));
-        flex-direction: column;
-        padding: var(--spacing-md);
-        gap: var(--spacing-md);
-        text-align: center;
-        border-top: 1px solid var(--card-border);
-        animation: slideDown 0.3s ease-out;
-      }
-
-      @keyframes slideDown {
-        from {
-          opacity: 0;
-          transform: translateY(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .photo-container {
-        width: 180px;
-        height: 180px;
-      }
-
-      .cta {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .btn {
-        width: 100%;
-        max-width: 300px;
-      }
-
-      .section {
-        padding: var(--spacing-xl) 5vw;
-      }
-
-      .project-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .navbar {
-        padding: var(--spacing-xs) 5vw;
-      }
-
-      .brand {
-        font-size: 1.2rem;
-      }
-
-      .photo-container {
-        width: 150px;
-        height: 150px;
-      }
-
-      .section {
-        padding: var(--spacing-lg) 5vw;
-      }
-    }
-
-    /* Scroll Progress Indicator */
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent), var(--accent-light));
-      z-index: 1001;
-      transition: width 0.1s ease;
-    }
-
-    /* Loading Animation */
-    .loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--primary-bg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-    }
-
-    .loading.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .spinner {
-      width: 50px;
-      height: 50px;
-      border: 3px solid var(--card-border);
-      border-top: 3px solid var(--accent);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Scroll Animations */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
+    :root{
+      --clr-accent:#f57b00;      /* saffron */
+      --clr-dark:  #0d1b2a;      /* near-navy */
+      --clr-light: #ffffff;
+      --clr-muted: #adb5bd;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Poppins',sans-serif;
+      line-height:1.6;
+      color:var(--clr-dark);
+      background:var(--clr-light);
+    }
+    a{color:var(--clr-accent);text-decoration:none}
+    h1,h2,h3{font-weight:700}
+    h1{font-size:2.5rem;margin-bottom:.25em}
+    h2{font-size:1.75rem;margin-bottom:.5em}
+    section{padding:4rem 0}
+    .container{width:min(90%,1000px);margin-inline:auto}
+
+    /* HERO */
+    #hero{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+    #hero img{
+      width:130px;height:130px;
+      border-radius:50%;
+      object-fit:cover;
+      margin-bottom:1rem;
+      border:4px solid var(--clr-accent);
+    }
+    #hero .tagline{font-size:1.1rem;letter-spacing:.3px}
+
+    /* LISTS */
+    .pill-list{
+      display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem
+    }
+    .pill{
+      padding:.4rem .8rem;
+      border-radius:20px;
+      background:var(--clr-dark);
+      color:var(--clr-light);
+      font-size:.85rem;
+    }
+
+    /* PROJECTS */
+    .grid{
+      display:grid;
+      gap:1.5rem;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    }
+    .card{
+      padding:1.5rem;
+      border:1px solid var(--clr-muted);
+      border-radius:14px;
+      transition:transform .2s;
+    }
+    .card:hover{transform:translateY(-6px)}
+    .card h3{margin-bottom:.3em}
+    .card p{font-size:.9rem;margin-bottom:.8em;color:var(--clr-dark)}
+
+    /* CONTACT */
+    #contact .cta{
+      font-size:1.2rem;
+      text-align:center;
+    }
+
+    /* FOOTER */
+    footer{
+      padding:2rem 0;
+      text-align:center;
+      font-size:.8rem;
+      color:var(--clr-muted);
+    }
+    /* RESPONSIVE TWEAKS */
+    @media (prefers-color-scheme: dark){
+      body          {background:var(--clr-dark);color:var(--clr-light)}
+      .card         {border-color:#33415c}
+      .pill         {background:var(--clr-accent)}
+      a             {color:#fed7aa}
     }
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
+
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <img src="gg.jpg" alt="Madhav Rimal">
+  <h1>माधव रिमाल · Madhav Rimal</h1>
+  <p class="tagline">
+    Data Science @ IITM · Sanskrit Sahitya Scholar
+  </p>
+
+  <!-- Areas Exploring -->
+  <div class="pill-list">
+    <span class="pill">Machine Learning &amp; AI</span>
+    <span class="pill">Sanskrit NLP</span>
+    <span class="pill">Indic Language Models</span>
+    <span class="pill">Indian Classical Music</span>
+    <span class="pill">Low-level Programming</span>
+    <span class="pill">Frontend Engineering</span>
   </div>
+</section>
 
-  <!-- Scroll Progress -->
-  <div class="scroll-progress" id="scrollProgress"></div>
+<!-- ========== ABOUT ========== -->
+<section id="about" class="container">
+  <h2>About</h2>
+  <p>
+    Namaste! I’m passionate about <strong>bridging ancient wisdom with modern technology</strong>.
+    My current research spans Sanskrit corpus digitization, Indic-AI, and
+    applied machine learning. Off keyboard, you’ll find me immersed in
+    *Shastriya Sangeet* or sketching mythological motifs.
+  </p>
+</section>
 
-  <!-- Background -->
-  <div class="background-container"></div>
-
-  <!-- Particles -->
-  <div class="particles" id="particles"></div>
-
-  <!-- 3D Earth Background -->
-  <canvas id="earth-canvas"></canvas>
-
-  <!-- Enhanced Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="brand">Madhav <span>Rimal</span></div>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#exploring">Exploring</a>
-      <a href="#projects">Projects</a>
-      <a href="#passions">Passions</a>
-      <a href="#contact">Contact</a>
+<!-- ========== PROJECTS ========== -->
+<section id="projects" class="container">
+  <h2>Selected Projects</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Bone Age Prediction</h3>
+      <p>Deep CNN predicting pediatric bone age from X-ray images (<em>94% R²</em>).</p>
+      <a href="https://github.com/madhavprapanna52/bone-age-prediction" target="_blank">View on GitHub →</a>
     </div>
-    <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+
+    <div class="card">
+      <h3>Phishing Email Detector</h3>
+      <p>NLP model classifying malicious emails; deployed as a REST API.</p>
+      <a href="https://github.com/madhavprapanna52/phishing-detector" target="_blank">View on GitHub →</a>
     </div>
-  </nav>
 
-  <!-- Enhanced Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="photo-container">
-        <img src="https://via.placeholder.com/220x220/333/fff?text=MR" alt="Madhav Rimal">
-      </div>
-      <h1>Jai Shrimannarayan, I'm <span style="color: var(--accent);">Madhav Rimal</span></h1>
-      <p>A passionate Data Science and Sanskrit Sahitya student, masterfully blending the timeless wisdom of ancient texts with cutting-edge technology to create innovative solutions for tomorrow's challenges.</p>
-      <div class="cta">
-        <a href="#projects" class="btn btn-primary">Explore My Work</a>
-        <a href="#contact" class="btn btn-secondary">Let's Connect</a>
-      </div>
+    <div class="card">
+      <h3>Face-Based Attendance</h3>
+      <p>Real-time face recognition system that logs attendance to SQLite.</p>
+      <a href="https://github.com/madhavprapanna52/face-attendance" target="_blank">View on GitHub →</a>
     </div>
-  </section>
 
-  <!-- About Section -->
-  <section class="section" id="about">
-    <div class="section-content">
-      <div class="glass">
-        <h2>About Me</h2>
-        <p>I am embarking on a unique dual academic journey, pursuing both a <span class="highlight">BSc in Data Science from the prestigious IIT Madras</span> and a <span class="highlight">BA Honours in Sanskrit Sahitya</span>. This distinctive combination empowers me to explore the fascinating intersection where ancient wisdom meets modern innovation.</p>
-        <p>My vision extends beyond traditional boundaries—I aim to revolutionize how we approach technology by infusing it with the profound insights of our cultural heritage. Through this synthesis, I aspire to contribute meaningfully to Sanskrit-Tech, Machine Learning, Robotics, and Indic-AI projects that can transform our world.</p>
-      </div>
+    <div class="card">
+      <h3>MathStatEngine <span style="font-size:.8em">(WIP)</span></h3>
+      <p>Interactive notebook kernel for symbolic stats &amp; probability.</p>
+      <a href="https://github.com/madhavprapanna52?tab=projects" target="_blank">Track progress →</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Exploring Section -->
-  <section class="section" id="exploring">
-    <div class="section-content slide-left">
-      <div class="glass">
-        <h2>Currently Exploring</h2>
-        <ul class="feature-list">
-          <li><span class="highlight">Machine Learning & AI Applications</span><br>Developing intelligent systems that solve complex real-world problems with precision and innovation</li>
-          <li><span class="highlight">Sanskrit NLP & Indic Language Modelling</span><br>Leveraging cutting-edge technology to preserve, analyze, and unlock the treasures of ancient Sanskrit texts</li>
-          <li><span class="highlight">Indian Classical Music (Shastriya Sangeet)</span><br>Immersing myself in the mathematical precision and spiritual depth of our musical traditions</li>
-          <li><span class="highlight">Low-level Programming & Frontend Engineering</span><br>Crafting efficient, elegant, and user-centric digital experiences from the ground up</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+<!-- ========== EXTRAS ========== -->
+<section id="extras" class="container">
+  <h2>Beyond Code</h2>
+  <p>
+    Sketching &amp; Visual Design · Free Fire eSports · Yoga &amp; Vyayam ·
+    Volleyball &amp; Cricket
+  </p>
+</section>
 
-  <!-- Projects Section -->
-  <section class="section" id="projects">
-    <div class="section-content slide-right">
-      <div class="glass">
-        <h2>Featured Projects</h2>
-        <div class="project-grid">
-          <div class="project-card">
-            <h3>Bone Age Prediction (ML)</h3>
-            <p>An advanced machine learning tool that estimates skeletal age from X-ray images, providing crucial support for medical diagnostics and pediatric healthcare professionals.</p>
-          </div>
-          <div class="project-card">
-            <h3>Phishing Email Detector</h3>
-            <p>A sophisticated AI-powered system that identifies and neutralizes malicious phishing attempts using advanced natural language processing and pattern recognition techniques.</p>
-          </div>
-          <div class="project-card">
-            <h3>Face-Based Attendance System</h3>
-            <p>An intelligent automated attendance tracking system leveraging state-of-the-art facial recognition technology for enhanced accuracy and efficiency in institutional settings.</p>
-          </div>
-          <div class="project-card">
-            <h3>MathStatEngine (In Progress)</h3>
-            <p>A comprehensive custom library designed for advanced mathematical and statistical computations, tailored for researchers and data scientists working with complex analytical tasks.</p>
-          </div>
-          <div class="project-card">
-            <h3>Vyakaran Engine (In Development)</h3>
-            <p>A groundbreaking Natural Language Processing tool specifically designed for comprehensive Sanskrit grammatical analysis, supporting researchers in linguistic and textual studies.</p>
-          </div>
-        </div>
-        <div style="text-align: center; margin-top: var(--spacing-lg);">
-          <a href="https://github.com/madhavprapanna52?tab=projects" class="btn btn-primary">View More on GitHub</a>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- ========== CONTACT ========== -->
+<section id="contact">
+  <div class="container cta">
+    <p>📬 <strong>madhavprapanna@gmail.com</strong></p>
+    <p>Let’s collaborate on Sanskrit-Tech, ML, Robotics or Indic-AI!</p>
+  </div>
+</section>
 
-  <!-- Passions Section -->
-  <section class="section" id="passions">
-    <div class="section-content">
-      <div class="glass">
-        <h2>My Passions</h2>
-        <p>My passions lie at the intersection of technology, culture, and creativity. I am deeply invested in exploring how <span class="highlight">Artificial Intelligence</span> and <span class="highlight">Sanskrit Sahitya</span> can converge to create meaningful impacts. Whether it's building intelligent systems, diving into the rhythmic intricacies of Indian classical music, or crafting seamless digital experiences through frontend engineering, I am driven by a desire to innovate and inspire.</p>
-        <p>I am also passionate about sharing knowledge and fostering a community of learners and creators. Through open-source contributions and collaborative projects, I aim to bridge the gap between ancient wisdom and modern technology.</p>
-      </div>
-    </div>
-  </section>
+<footer>
+  Built with 💛 in Vrindavan — © 2024 Madhav Rimal
+</footer>
 
-  <!-- Contact Section -->
-  <section class="section" id="contact">
-    <div class="section-content slide-left">
-      <div class="glass">
-        <h2>Let's Connect</h2>
-        <p>Interested in collaborating or just want to say hi? Feel free to reach out to me through the following platforms:</p>
-        <div class="cta">
-          <a href="mailto:madhav.rimal@example.com" class="btn btn-primary">Email Me</a>
-          <a href="https://linkedin.com/in/madhavrimal" class="btn btn-secondary">LinkedIn</a>
-          <a href="https://github.com/madhavprapanna52" class="btn btn-secondary">GitHub</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Madhav Rimal. All rights reserved.</p>
-    <p>Built with <span style="color: var(--accent);">passion</span> and powered by <span style="color: var(--accent);">innovation</span>.</p>
-  </footer>
-
-  <script>
-    // Loading Screen
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loading').classList.add('hidden');
-      }, 1000);
-    });
-
-    // Scroll Progress
-    window.addEventListener('scroll', () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = (scrollTop / docHeight) * 100;
-      document.getElementById('scrollProgress').style.width = scrollPercent + '%';
-    });
-
-    // Navbar Scroll Effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    });
-
-    // Hamburger Menu
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      navLinks.classList.toggle('active');
-    });
-
-    // Close mobile menu when a link is clicked
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-      });
-    });
-
-    // Particles Animation
-    const particlesContainer = document.getElementById('particles');
-    const particleCount = 100;
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.animationDelay = Math.random() * 20 + 's';
-      particle.style.animationDuration = Math.random() * 10 + 10 + 's';
-      particlesContainer.appendChild(particle);
-    }
-
-    // 3D Earth Animation
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('earth-canvas'), alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    const geometry = new THREE.SphereGeometry(5, 32, 32);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0x00ffcc,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.5
-    });
-    const earth = new THREE.Mesh(geometry, material);
-    scene.add(earth);
-
-    camera.position.z = 10;
-
-    function animate() {
-      requestAnimationFrame(animate);
-      earth.rotation.y += 0.002;
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    // Resize Handler
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // Scroll Animations
-    const sections = document.querySelectorAll('.section-content');
-    const observerOptions = {
-      root: null,
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    sections.forEach(section => observer.observe(section));
-  </script>
 </body>
 </html>
