@@ -7,46 +7,39 @@
   <title>Madhav Rimal | Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Space Grotesk', sans-serif;
-      background: radial-gradient(circle at top, #0f0f1b, #000);
-      color: white;
-      overflow-x: hidden;
+      background-color: #f4f4f4;
+      color: #111;
     }
 
     nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 50px;
-      font-size: 14px;
+      width: 100%;
+      background: #111;
+      padding: 20px 0;
+      text-align: center;
     }
 
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 30px;
-    }
-
-    nav ul li a {
-      text-decoration: none;
+    nav a {
       color: white;
-      opacity: 0.7;
-      transition: 0.3s;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: color 0.3s;
     }
 
-    nav ul li a:hover {
-      opacity: 1;
+    nav a:hover {
+      color: #4f8cff;
     }
 
-    .logo {
-      font-weight: bold;
-      font-size: 18px;
-      color: #7df9ff;
-    }
-
-    header {
+    .main {
       height: 100vh;
       display: flex;
       flex-direction: column;
@@ -55,74 +48,39 @@
       text-align: center;
     }
 
-    .hero-title {
-      font-size: 60px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .hero-subtitle {
-      font-size: 18px;
+    .name {
+      font-size: 16px;
       letter-spacing: 2px;
-      opacity: 0.8;
+      margin-bottom: 40px;
     }
 
-    .scroll-down {
-      position: absolute;
-      bottom: 20px;
-      border: 2px solid white;
-      border-radius: 20px;
-      width: 24px;
-      height: 40px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 4px;
+    .circle {
+      width: 120px;
+      height: 120px;
+      background-color: #3366ff;
+      border-radius: 50%;
+      margin: 0 auto;
     }
 
-    .scroll-down::after {
-      content: '';
-      width: 4px;
-      height: 8px;
-      background: white;
-      margin-top: 4px;
-      border-radius: 2px;
-      animation: scroll 1.5s infinite;
-    }
-
-    @keyframes scroll {
-      0% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(10px);
-      }
-
-      100% {
-        transform: translateY(0);
-      }
+    .title {
+      margin-top: 40px;
+      font-size: 14px;
+      letter-spacing: 3px;
     }
   </style>
 </head>
 
 <body>
   <nav>
-    <div class="logo">MadhavRimal._</div>
-    <ul>
-      <li><a href="#">// home</a></li>
-      <li><a href="#">// expertise</a></li>
-      <li><a href="#">// work</a></li>
-      <li><a href="#">// experience</a></li>
-      <li><a href="#">// contact</a></li>
-    </ul>
+    <a href="#">ABOUT</a>
+    <a href="#">WORK</a>
   </nav>
 
-  <header>
-    <h1 class="hero-title">MADHAV RIMAL</h1>
-    <p class="hero-subtitle">VEDIC TECHNOLOGIST, C DEVELOPER & DATA SCIENTIST</p>
-    <div class="scroll-down"></div>
-  </header>
+  <div class="main">
+    <div class="name">MADHAV RIMAL</div>
+    <div class="circle"></div>
+    <div class="title">VEDIC TECHNOLOGIST & C DEVELOPER</div>
+  </div>
 </body>
 
 </html>
