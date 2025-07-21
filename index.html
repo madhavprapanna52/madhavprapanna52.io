@@ -1,183 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Madhav Rimal – Portfolio</title>
-
-  <!-- GOOGLE FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Madhav Rimal | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --clr-accent:#f57b00;      /* saffron */
-      --clr-dark:  #0d1b2a;      /* near-navy */
-      --clr-light: #ffffff;
-      --clr-muted: #adb5bd;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:'Poppins',sans-serif;
-      line-height:1.6;
-      color:var(--clr-dark);
-      background:var(--clr-light);
-    }
-    a{color:var(--clr-accent);text-decoration:none}
-    h1,h2,h3{font-weight:700}
-    h1{font-size:2.5rem;margin-bottom:.25em}
-    h2{font-size:1.75rem;margin-bottom:.5em}
-    section{padding:4rem 0}
-    .container{width:min(90%,1000px);margin-inline:auto}
-
-    /* HERO */
-    #hero{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      text-align:center;
-    }
-    #hero img{
-      width:130px;height:130px;
-      border-radius:50%;
-      object-fit:cover;
-      margin-bottom:1rem;
-      border:4px solid var(--clr-accent);
-    }
-    #hero .tagline{font-size:1.1rem;letter-spacing:.3px}
-
-    /* LISTS */
-    .pill-list{
-      display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem
-    }
-    .pill{
-      padding:.4rem .8rem;
-      border-radius:20px;
-      background:var(--clr-dark);
-      color:var(--clr-light);
-      font-size:.85rem;
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      background: radial-gradient(circle at top, #0f0f1b, #000);
+      color: white;
+      overflow-x: hidden;
     }
 
-    /* PROJECTS */
-    .grid{
-      display:grid;
-      gap:1.5rem;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    }
-    .card{
-      padding:1.5rem;
-      border:1px solid var(--clr-muted);
-      border-radius:14px;
-      transition:transform .2s;
-    }
-    .card:hover{transform:translateY(-6px)}
-    .card h3{margin-bottom:.3em}
-    .card p{font-size:.9rem;margin-bottom:.8em;color:var(--clr-dark)}
-
-    /* CONTACT */
-    #contact .cta{
-      font-size:1.2rem;
-      text-align:center;
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      font-size: 14px;
     }
 
-    /* FOOTER */
-    footer{
-      padding:2rem 0;
-      text-align:center;
-      font-size:.8rem;
-      color:var(--clr-muted);
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
     }
-    /* RESPONSIVE TWEAKS */
-    @media (prefers-color-scheme: dark){
-      body          {background:var(--clr-dark);color:var(--clr-light)}
-      .card         {border-color:#33415c}
-      .pill         {background:var(--clr-accent)}
-      a             {color:#fed7aa}
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      opacity: 0.7;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      opacity: 1;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 18px;
+      color: #7df9ff;
+    }
+
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 60px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      letter-spacing: 2px;
+      opacity: 0.8;
+    }
+
+    .scroll-down {
+      position: absolute;
+      bottom: 20px;
+      border: 2px solid white;
+      border-radius: 20px;
+      width: 24px;
+      height: 40px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .scroll-down::after {
+      content: '';
+      width: 4px;
+      height: 8px;
+      background: white;
+      margin-top: 4px;
+      border-radius: 2px;
+      animation: scroll 1.5s infinite;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(10px);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
+
 <body>
+  <nav>
+    <div class="logo">MadhavRimal._</div>
+    <ul>
+      <li><a href="#">// home</a></li>
+      <li><a href="#">// expertise</a></li>
+      <li><a href="#">// work</a></li>
+      <li><a href="#">// experience</a></li>
+      <li><a href="#">// contact</a></li>
+    </ul>
+  </nav>
 
-
-<!-- ========== HERO ========== -->
-<section id="hero">
-  <img src="gg.jpeg" alt="Madhav Rimal">
-  <h1>माधव रिमाल · Madhav Rimal</h1>
-  <p class="tagline">
-    Data Science @ IITM · Sanskrit Sahitya Scholar
-  </p>
-
-  <!-- Areas Exploring -->
-  <div class="pill-list">
-    <span class="pill">Machine Learning &amp; AI</span>
-    <span class="pill">Sanskrit NLP</span>
-    <span class="pill">Indic Language Models</span>
-    <span class="pill">Indian Classical Music</span>
-    <span class="pill">Low-level Programming</span>
-    <span class="pill">Frontend Engineering</span>
-  </div>
-</section>
-
-<!-- ========== ABOUT ========== -->
-<section id="about" class="container">
-  <h2>About</h2>
-  <p>
-    Namaste! I’m passionate about <strong>bridging ancient wisdom with modern technology</strong>.
-    My current research spans Sanskrit corpus digitization, Indic-AI, and
-    applied machine learning. Off keyboard, you’ll find me immersed in
-    *Shastriya Sangeet* or sketching mythological motifs.
-  </p>
-</section>
-
-<!-- ========== PROJECTS ========== -->
-<section id="projects" class="container">
-  <h2>Selected Projects</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Bone Age Prediction</h3>
-      <p>Deep CNN predicting pediatric bone age from X-ray images (<em>94% R²</em>).</p>
-      <a href="https://github.com/madhavprapanna52/bone-age-prediction" target="_blank">View on GitHub →</a>
-    </div>
-
-    <div class="card">
-      <h3>Phishing Email Detector</h3>
-      <p>NLP model classifying malicious emails; deployed as a REST API.</p>
-      <a href="https://github.com/madhavprapanna52/phishing-detector" target="_blank">View on GitHub →</a>
-    </div>
-
-    <div class="card">
-      <h3>Face-Based Attendance</h3>
-      <p>Real-time face recognition system that logs attendance to SQLite.</p>
-      <a href="https://github.com/madhavprapanna52/face-attendance" target="_blank">View on GitHub →</a>
-    </div>
-
-    <div class="card">
-      <h3>MathStatEngine <span style="font-size:.8em">(WIP)</span></h3>
-      <p>Interactive notebook kernel for symbolic stats &amp; probability.</p>
-      <a href="https://github.com/madhavprapanna52?tab=projects" target="_blank">Track progress →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ========== EXTRAS ========== -->
-<section id="extras" class="container">
-  <h2>Beyond Code</h2>
-  <p>
-    Sketching &amp; Visual Design · Free Fire eSports · Yoga &amp; Vyayam ·
-    Volleyball &amp; Cricket
-  </p>
-</section>
-
-<!-- ========== CONTACT ========== -->
-<section id="contact">
-  <div class="container cta">
-    <p>📬 <strong>madhavprapanna@gmail.com</strong></p>
-    <p>Let’s collaborate on Sanskrit-Tech, ML, Robotics or Indic-AI!</p>
-  </div>
-</section>
-
-<footer>
-  Built with 💛 in Vrindavan — © 2024 Madhav Rimal
-</footer>
-
+  <header>
+    <h1 class="hero-title">MADHAV RIMAL</h1>
+    <p class="hero-subtitle">VEDIC TECHNOLOGIST, C DEVELOPER & DATA SCIENTIST</p>
+    <div class="scroll-down"></div>
+  </header>
 </body>
+
 </html>
