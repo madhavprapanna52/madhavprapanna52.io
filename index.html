@@ -251,7 +251,7 @@ nav a:hover::after{width:100%}
   <a href="#contact">CONTACT</a>
 
   <div id="themeToggle" class="theme-toggle">
-    <span class="theme-icon">🌙</span>
+    <span class="theme-icon"> </span>
     <span>DARK</span>
   </div>
 </nav>
@@ -355,7 +355,7 @@ let dark=true;
 themeToggle.onclick=()=>{
   dark=!dark;
   body.setAttribute('data-theme',dark?'dark':'light');
-  themeToggle.querySelector('.theme-icon').textContent=dark?'🌙':'☀️';
+  themeToggle.querySelector('.theme-icon').textContent=dark?'+':'-';
   themeToggle.querySelector('span:last-child').textContent=dark?'DARK':'LIGHT';
 };
 
