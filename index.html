@@ -1,416 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Madhav Rimal | Data-science student</title>
-
-<!--  GOOGLE FONTS  -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
-
-<style>
-/* =========  THEME TOKENS  =========== */
-:root{
-  --clr-primary:#00d4ff;
-  --clr-secondary:#ff6b35;
-  --clr-bg-dark:#0a0a0a;
-  --clr-bg-light:#f5f5f7;
-  --clr-surface-dark:#1a1a1a;
-  --clr-surface-light:#ffffff;
-  --clr-text-dark:#111;
-  --clr-text-light:#fff;
-  --shadow-glow:0 0 32px rgba(0,212,255,.35);
-  --reactor-blue:#00e5ff;
-}
-
-/* dark / light mappings */
-[data-theme="dark"]{
-  --bg:var(--clr-bg-dark);
-  --surface:var(--clr-surface-dark);
-  --text:var(--clr-text-light);
-  --text-muted:#a8a8a8;
-}
-[data-theme="light"]{
-  --bg:var(--clr-bg-light);
-  --surface:var(--clr-surface-light);
-  --text:var(--clr-text-dark);
-  --text-muted:#666;
-}
-
-/* ==========  BASE  ========== */
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  font-family:"Space Grotesk",sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
-  overflow-x:hidden;
-  transition:background .3s,color .3s;
-}
-a{color:inherit;text-decoration:none}
-
-/* =====  NAVBAR  ===== */
-nav{
-  position:fixed;top:0;left:0;width:100%;
-  backdrop-filter:blur(20px);
-  background:rgba(0,0,0,.7);
-  padding:18px 0;
-  display:flex;justify-content:center;
-  border-bottom:1px solid rgba(0,212,255,.24);
-  z-index:1000;
-  transition:padding .25s,background .25s;
-}
-nav a{
-  font-size:.8rem;letter-spacing:2px;
-  margin:0 22px;position:relative;
-  transition:color .2s,transform .2s;
-}
-nav a::after{
-  content:"";
-  position:absolute;left:50%;bottom:-6px;
-  width:0;height:2px;
-  background:linear-gradient(90deg,var(--clr-primary),var(--clr-secondary));
-  transform:translateX(-50%);
-  transition:width .25s;
-}
-nav a:hover{color:var(--clr-primary);transform:translateY(-2px)}
-nav a:hover::after{width:100%}
-
-/*  theme-toggle pill  */
-.theme-toggle{
-  margin-left:20px;cursor:pointer;
-  display:flex;align-items:center;
-  gap:8px;
-  font-weight:500;
-  background:var(--surface);
-  border:2px solid var(--clr-primary);
-  border-radius:40px;
-  padding:6px 16px;
-  transition:transform .25s,box-shadow .25s;
-}
-.theme-toggle:hover{transform:scale(1.05);box-shadow:var(--shadow-glow)}
-.theme-icon{font-size:1rem}
-
-/* =====  HERO  ===== */
-.hero{
-  height:100vh;
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  text-align:center;
-  position:relative;overflow:hidden;
-}
-.hero::before{
-  content:"";position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 30% 70%,rgba(0,212,255,.15) 0%,transparent 60%),
-    radial-gradient(circle at 70% 30%,rgba(255,107,53,.15) 0%,transparent 60%);
-  pointer-events:none;
-}
-.name{
-  font-family:"Orbitron",monospace;
-  font-size:1.7rem;font-weight:600;
-  letter-spacing:4px;
-  margin-bottom:52px;
-  opacity:0;transform:translateY(24px);
-  animation:fade-in-up .9s .3s forwards;
-}
-/* ---------- ARC-REACTOR ---------- */
-.reactor-wrapper{position:relative;margin-bottom:48px}
-.arc-reactor{
-  width:190px;height:190px;position:relative;
-  opacity:0;transform:scale(.5);
-  animation:reactor-in 1.2s .6s forwards;
-}
-.reactor-core{
-  width:100%;height:100%;border-radius:50%;
-  background:radial-gradient(circle,var(--reactor-blue) 0%,var(--clr-primary) 32%,rgba(0,229,255,.2) 68%,transparent 100%);
-  box-shadow:
-    0 0 52px var(--reactor-blue),
-    inset 0 0 60px rgba(0,229,255,.25);
-  animation:pulse 3s ease-in-out infinite;
-}
-.reactor-ring{
-  position:absolute;border:4px solid var(--reactor-blue);
-  border-radius:50%;inset:12px;
-  animation:spin 14s linear infinite;
-}
-.reactor-ring:nth-child(2){
-  inset:28px;border-width:3px;animation-direction:reverse;animation-duration:20s;
-}
-.reactor-ring:nth-child(3){
-  inset:45px;border-width:2px;animation-duration:22s;
-}
-.reactor-center{
-  position:absolute;top:50%;left:50%;
-  width:42px;height:42px;border-radius:50%;
-  background:var(--reactor-blue);
-  transform:translate(-50%,-50%);
-  box-shadow:0 0 32px var(--reactor-blue),inset 0 0 24px rgba(255,255,255,.4);
-  animation:center-pulse 1.6s ease-in-out infinite;
-}
-
-/* little floating sparks */
-.spark{
-  position:absolute;width:3px;height:3px;border-radius:50%;
-  background:var(--reactor-blue);pointer-events:none;
-  animation:spark-move linear forwards;
-}
-
-/* =====  SECTION HEADINGS  ===== */
-.section{padding:110px 22px;max-width:1200px;margin:auto}
-.section-title{
-  font-family:"Orbitron",monospace;
-  font-size:2.2rem;font-weight:800;
-  text-align:center;margin-bottom:65px;
-  background:linear-gradient(45deg,var(--clr-primary),var(--clr-secondary));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-.fade-in{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
-.fade-in.visible{opacity:1;transform:none}
-
-/* =====  PROJECTS  ===== */
-.projects-grid{
-  display:grid;gap:30px;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-}
-.project-card{
-  background:var(--surface);
-  padding:28px;border-radius:18px;
-  border:1px solid rgba(0,212,255,.25);
-  transition:transform .25s,box-shadow .25s,border-color .25s;
-  backdrop-filter:blur(14px);
-  position:relative;overflow:hidden;
-}
-.project-card::before{
-  content:"";position:absolute;left:0;top:0;width:100%;height:4px;
-  background:linear-gradient(90deg,var(--clr-primary),var(--clr-secondary));
-  transform:scaleX(0);transform-origin:left;
-  transition:transform .3s;
-}
-.project-card:hover{transform:translateY(-10px);box-shadow:var(--shadow-glow);border-color:var(--clr-primary)}
-.project-card:hover::before{transform:scaleX(1)}
-.project-title{font-family:"Orbitron";font-size:1.1rem;font-weight:600;margin-bottom:12px}
-.project-description{font-size:.9rem;color:var(--text-muted);margin-bottom:18px}
-.project-tech{display:flex;flex-wrap:wrap;gap:6px}
-.tech-tag{
-  font-size:.65rem;padding:3px 10px;border-radius:16px;
-  background:rgba(0,212,255,.12);border:1px solid rgba(0,212,255,.3);
-  color:var(--clr-primary);font-weight:500;white-space:nowrap;
-}
-
-/* ===== CONTACT  ===== */
-.contact-info{font-size:1rem;color:var(--text-muted);margin-bottom:36px;text-align:center}
-.contact-link{
-  display:inline-block;font-family:"Orbitron";font-weight:500;
-  color:var(--clr-primary);position:relative;transition:color .25s,transform .25s;
-}
-.contact-link:hover{color:var(--clr-secondary);transform:translateY(-2px)}
-.social-links{display:flex;justify-content:center;gap:22px;margin-top:44px}
-.social-link{
-  width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  background:var(--surface);border:2px solid var(--clr-primary);
-  color:var(--clr-primary);font-family:"Orbitron";font-weight:700;
-  transition:transform .25s,background .25s,color .25s,box-shadow .25s;
-}
-.social-link:hover{background:var(--clr-primary);color:#fff;transform:translateY(-3px) scale(1.1);box-shadow:var(--shadow-glow)}
-
-/* ======  ANIMATIONS  ====== */
-@keyframes fade-in-up{to{opacity:1;transform:none}}
-@keyframes reactor-in{to{opacity:1;transform:scale(1)}}
-@keyframes pulse{
-  0%,100%{box-shadow:0 0 52px var(--reactor-blue),inset 0 0 60px rgba(0,229,255,.25)}
-  50%     {box-shadow:0 0 78px var(--reactor-blue),0 0 110px rgba(0,212,255,.35),inset 0 0 90px rgba(0,229,255,.45)}
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes center-pulse{
-  0%,100%{transform:translate(-50%,-50%) scale(1)}
-  50%     {transform:translate(-50%,-50%) scale(1.12)}
-}
-@keyframes spark-move{
-  0%{transform:translate(0,0);opacity:.9}
-  100%{transform:translate(var(--x),var(--y));opacity:0}
-}
-
-/* ========== RESPONSIVE ========== */
-@media(max-width:768px){
-  .name{font-size:1.35rem}
-  .arc-reactor{width:150px;height:150px}
-  .section{padding:80px 20px}
-  nav a{margin:0 14px;font-size:.72rem}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Madhav Rimal</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+<body>
+   <header>
+    <div class="main-bar">
+        <div id="logo" class="nav-content">
+            Portfolio
+        </div>
 
-<body data-theme="dark">
-<!-- ===========  NAV  =========== -->
-<nav id="navbar">
-  <a href="#hero">HOME</a>
-  <a href="#projects">PROJECTS</a>
-  <a href="#contact">CONTACT</a>
+        <div id="navigation-bar" class="nav-content">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">contact</a>
+        </div>
+    </div>
+   </header>
 
-  <div id="themeToggle" class="theme-toggle">
-    <span class="theme-icon"> </span>
-    <span>Light</span>
-  </div>
-</nav>
+   <section id="home">
+    <div class="hero-section">
+        <div class="hero-text">
+            <h1>Madhav Rimal</h1>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing <br>
+                accusantium cumque. In magnam laborum consecteturbr
+            quia incidunt similique earum. Molestias asperiores <br>
+                placeat excepturi facilis atque. Impedit, fugit!</p>
+        </div>
 
-<!-- ===========  HERO  =========== -->
-<section id="hero" class="hero">
-  <h1 class="name">MADHAV RIMAL</h1>
-
-  <div class="reactor-wrapper">
-    <div class="arc-reactor">
-      <div class="reactor-core"></div>
-      <div class="reactor-ring"></div>
-      <div class="reactor-ring"></div>
-      <div class="reactor-ring"></div>
-      <div class="reactor-center"></div>
+        
+            <div class="fullpage-wrapper">
+  <div class="reactor-container">
+    <div class="reactor-container-inner circle abs-center"></div>
+    <div class="tunnel circle abs-center"></div>
+    <div class="core-wrapper circle abs-center"></div>
+    <div class="core-outer circle abs-center"></div>
+    <div class="core-inner circle abs-center"></div>
+    <div class="coil-container">
+      <div class="coil coil-1"></div>
+      <div class="coil coil-2"></div>
+      <div class="coil coil-3"></div>
+      <div class="coil coil-4"></div>
+      <div class="coil coil-5"></div>
+      <div class="coil coil-6"></div>
+      <div class="coil coil-7"></div>
+      <div class="coil coil-8"></div>
     </div>
   </div>
+</div>
+        
 
-  <p class="title" style="font-family:'Orbitron';font-size:1rem;letter-spacing:3px;color:var(--text-muted)">
-    <span style="color:var(--clr-secondary)">FUTURE DATASCIENTIST</span> &amp;
-  </p>
-</section>
 
-<!-- ==========  PROJECTS  ========== -->
-<section id="projects" class="section">
-  <h2 class="section-title fade-in">PROJECTS</h2>
-
-  <div class="projects-grid">
-    <!-- 1 -->
-    <div class="project-card fade-in">
-      <div class="project-title">Bone-Age Prediction</div>
-      <p class="project-description">AI system analysing medical X-rays with linear-regression over extracted features.</p>
-      <div class="project-tech">
-        <span class="tech-tag">Python</span><span class="tech-tag">TensorFlow</span>
-        <span class="tech-tag">OpenCV</span><span class="tech-tag">Regression</span>
-      </div>
     </div>
-    <!-- 2 -->
-    <div class="project-card fade-in">
-      <div class="project-title">Matsya Jaal</div>
-      <p class="project-description">Intelligent threat analysis using multi-logistic model stacking – accuracy close to neural nets.</p>
-      <div class="project-tech">
-        <span class="tech-tag">NLP</span><span class="tech-tag">NLTK</span>
-        <span class="tech-tag">Scikit-learn</span><span class="tech-tag">Cyber-Sec</span>
-      </div>
+   </section>
+
+   <section id="projects">
+    <div id="case">
+        <div class="cards">
+            <img src="boneage.png" alt="udta hi firu" class="projects-card-img">
+            <a href="https://madhavprapanna52-io.vercel.app"><h3>Machine Learning</h3></a>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing, <br> Libero sit accusamus dolores assumenda nisi veritatis explicabo alias delectus voluptatum <br>Nam hic maxime corrupti ipsa odit saepe totam nemo dolor.</p>
+
+        </div>
+
+        <div class="cards">
+            <img src="shankh.png" alt="Udta hi phiru in hawao me khi" class="projects-card-img">
+            <h3>Shankh</h3>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. i<br>
+                Eius officiis esse magni a ipsam perspiciatis voluptatem, in numquam ducimus. Laborum nulla repudiandae ipsum inventore doloribus,<br> natus labore in dolorem quas?</p>
+
+        </div>
     </div>
-    <!-- 3 -->
-    <div class="project-card fade-in">
-      <div class="project-title">Face recognition Recognition</div>
-      <p class="project-description">Face recognition project could be used for wide range of projects .</p>
-      <div class="project-tech">
-        <span class="tech-tag">Computer Vision</span><span class="tech-tag">OpenCV</span>
-        <span class="tech-tag">dlib</span><span class="tech-tag">Bio-Auth</span>
-      </div>
-    </div>
-    <!-- 4 -->
-    <div class="project-card fade-in">
-      <div class="project-title">Ganit Chakshu</div>
-      <p class="project-description">Toolkit offering deep mathematical insights and statistical analysis.</p>
-      <div class="project-tech">
-        <span class="tech-tag">C</span><span class="tech-tag">Statistics</span>
-        <span class="tech-tag">Math</span><span class="tech-tag">Multi-Stack</span>
-      </div>
-    </div>
-  </div>
 
-  <div style="text-align:center;margin-top:60px">
-    <a href="https://github.com/madhavprapanna52?tab=projects" target="_blank"
-       style="display:inline-flex;align-items:center;gap:12px;padding:14px 32px;
-              background:linear-gradient(45deg,var(--clr-primary),var(--clr-secondary));
-              color:#fff;border-radius:40px;font-family:'Orbitron';
-              box-shadow:var(--shadow-glow);transition:transform .25s,box-shadow .25s">
-      REPO LINK →
-    </a>
-  </div>
-</section>
+   </section>
 
-<!-- ==========  CONTACT  ========== -->
-<section id="contact" class="section">
-  <h2 class="section-title fade-in">INITIATE CONTACT</h2>
-  <p class="contact-info fade-in">
-    Ready to join the next generation of technological innovation?<br>
-    Connect with ShirMadhav Technologies for collaboration opportunities.
-    Also check out these some amazing websites , 
-  </p>
-  <a href="https://shankh-one.vercel.app/"> Shankh the search engine</a>
-  <br>
-  <a href='https://sanganak-one.vercel.app/'> Python coding platform</a>
-  <p class="fade-in">
-    <a href="mailto:madhavprapanna@gmail.com" class="contact-link">madhavprapanna@gmail.com</a>
-  </p>
 
-  <div class="social-links fade-in">
-    <a class="social-link" href="https://github.com/madhavprapanna52" target="_blank" title="GitHub">GH</a>
-    <a class="social-link" href="https://docs.google.com/forms/d/e/1FAIpQLSf5LCm6JZEaecM18eS1CbXZHT372aMkj4-Qx-kTEj6ncHs-SA/viewform?usp=sf_link" title="Email">@</a>
-  </div>
-</section>
-
-<!-- ==========  JS  ========== -->
-<script>
-/* THEME TOGGLE --------------------------------------------------- */
-const themeToggle=document.getElementById('themeToggle');
-const body=document.body;
-let dark=true;
-themeToggle.onclick=()=>{
-  dark=!dark;
-  body.setAttribute('data-theme',dark?'dark':'light');
-  themeToggle.querySelector('.theme-icon').textContent=dark?'+':'-';
-  themeToggle.querySelector('span:last-child').textContent=dark?'DARK':'LIGHT';
-};
-
-/* NAVBAR shrink on scroll --------------------------------------- */
-const nav=document.getElementById('navbar');
-window.addEventListener('scroll',()=>{
-  nav.style.padding = window.scrollY>40 ? '12px 0':'18px 0';
-  nav.style.background = dark
-      ? (window.scrollY>40?'rgba(0,0,0,.82)':'rgba(0,0,0,.7)')
-      : (window.scrollY>40?'rgba(255,255,255,.9)':'rgba(255,255,255,.85)');
-});
-
-/* SMOOTH-SCROLL links ------------------------------------------ */
-document.querySelectorAll('nav a[href^="#"]').forEach(a=>{
-  a.onclick=e=>{
-    e.preventDefault();
-    document.querySelector(a.getAttribute('href'))
-            .scrollIntoView({behavior:'smooth'});
-  };
-});
-
-/* INTERSECTION-OBSERVER fade-ins ------------------------------- */
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>e.isIntersecting && e.target.classList.add('visible'));
-},{threshold:0.15});
-document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
-
-/* STAGGER project cards ---------------------------------------- */
-document.querySelectorAll('.project-card').forEach((el,i)=>{
-  el.style.transitionDelay=`${i*0.1}s`;
-});
-
-/* ARC-REACTOR SPARKS ------------------------------------------- */
-const reactor=document.querySelector('.arc-reactor');
-function makeSpark(){
-  const s=document.createElement('div');
-  s.className='spark';
-  const angle=Math.random()*2*Math.PI;
-  const distance=60+Math.random()*45;
-  const x=Math.cos(angle)*distance;
-  const y=Math.sin(angle)*distance;
-  s.style.left='calc(50% - 1.5px)';
-  s.style.top='calc(50% - 1.5px)';
-  s.style.setProperty('--x',`${x}px`);
-  s.style.setProperty('--y',`${y}px`);
-  const dur=1500+Math.random()*1200;
-  s.style.animationDuration=`${dur}ms`;
-  reactor.appendChild(s);
-  setTimeout(()=>s.remove(),dur);
-}
-setInterval(makeSpark,260);
-</script>
+   <footer>
+    <p>copyright (c) Madhav rimal 2025 , All rights reserved</p>
+   </footer>
 </body>
 </html>
