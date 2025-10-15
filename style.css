@@ -175,16 +175,6 @@ img{
     scroll-snap-align: center;
 }
 
-footer{
-    background-color: rgb(31, 31, 31);
-    height : 2cm;
-    color : white;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom : 1%;
-}
 
 .fullpage-wrapper {
   width: 100%;
