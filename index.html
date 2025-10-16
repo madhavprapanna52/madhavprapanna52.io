@@ -3,58 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Madhav Rimal</title>
+    <title>Madhav Rimal | Data Science & Sanskrit Scholar</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+   <!-- Navigation -->
    <header>
-    <div class="main-bar">
+    <nav class="main-bar">
         <div id="logo" class="nav-content">
-            Portfolio
+            <span class="logo-accent">M</span>R
         </div>
 
         <div id="navigation-bar" class="nav-content">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#contact">contact</a>
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#contact" class="nav-link">Contact</a>
         </div>
-    </div>
+    </nav>
    </header>
 
+   <!-- Hero Section -->
    <section id="home">
     <div class="hero-section">
         <div class="hero-text">
-            <h1>Madhav Rimal</h1>
-            <p>Future data scientist,<br>
-                <br>
-                check out my projects <br>
-                github Profile<a href="https://github.com/madhavprapanna52">GITHUB</a></p>
+            <div class="greeting">Jai Shriman Narayana 🙏</div>
+            <h1 class="gradient-text">Madhav Rimal</h1>
+            <div class="hero-subtitle">
+                <span class="typing-effect">Data Science Student</span>
+                <span class="separator">•</span>
+                <span class="typing-effect">Sanskrit Scholar</span>
+                <span class="separator">•</span>
+                <span class="typing-effect">Full Stack Developer</span>
+            </div>
+            <p class="hero-description">
+                Building intelligent solutions through data science and preserving cultural heritage through Sanskrit NLP. 
+                Currently pursuing BSc in Data Science at IIT Madras and BA in Sanskrit Sahitya.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn-primary">View Projects</a>
+                <a href="#contact" class="btn-secondary">Get in Touch</a>
+            </div>
         </div>
 
-        
-            <div class="fullpage-wrapper">
-  <div class="reactor-container">
-    <div class="reactor-container-inner circle abs-center"></div>
-    <div class="tunnel circle abs-center"></div>
-    <div class="core-wrapper circle abs-center"></div>
-    <div class="core-outer circle abs-center"></div>
-    <div class="core-inner circle abs-center"></div>
-    <div class="coil-container">
-      <div class="coil coil-1"></div>
-      <div class="coil coil-2"></div>
-      <div class="coil coil-3"></div>
-      <div class="coil coil-4"></div>
-      <div class="coil coil-5"></div>
-      <div class="coil coil-6"></div>
-      <div class="coil coil-7"></div>
-      <div class="coil coil-8"></div>
-    </div>
-  </div>
-</div>
-        
-
-
+        <div class="hero-visual">
+            <div class="reactor-container">
+                <div class="reactor-container-inner circle abs-center"></div>
+                <div class="tunnel circle abs-center"></div>
+                <div class="core-wrapper circle abs-center"></div>
+                <div class="core-outer circle abs-center"></div>
+                <div class="core-inner circle abs-center"></div>
+                <div class="coil-container">
+                    <div class="coil coil-1"></div>
+                    <div class="coil coil-2"></div>
+                    <div class="coil coil-3"></div>
+                    <div class="coil coil-4"></div>
+                    <div class="coil coil-5"></div>
+                    <div class="coil coil-6"></div>
+                    <div class="coil coil-7"></div>
+                    <div class="coil coil-8"></div>
+                </div>
+            </div>
+        </div>
     </div>
    </section>
+
+   <!-- About Section -->
+   <section id="about">
+    <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p class="about-intro">
+                    A passionate technologist bridging ancient wisdom with modern innovation. 
+                    With 3+ years of Python experience and deep roots in Sanskrit literature, 
+                    I create tools that make learning accessible and preserve cultural heritage.
+                </p>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Technical Skills</h3>
+                        <div class="skill-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Java</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Flask</span>
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">Linux</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Creative Skills</h3>
+                        <div class="skill-tags">
+                            <span class="tag">Singing</span>
+                            <span class="tag">Drawing</span>
+                            <span class="tag">Video Editing</span>
+                            <span class="tag">Content Creation</span>
+                            <span class="tag">Public Speaking</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">3+</div>
+                    <div class="stat-label">Years Coding</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6+</div>
+                    <div class="stat-label">Projects Built</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Degrees Pursuing</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4+</div>
+                    <div class="stat-label">Years Fitness</div>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+
+   <!-- Projects Section -->
+   <section id="projects">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <div class="project-overlay">
+                        <span class="view-project">View Project →</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Bone Age Prediction Tool</h3>
+                    <p>Machine learning model that predicts bone age from X-ray images using computer vision and deep learning techniques.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">TensorFlow</span>
+                        <span class="tag">OpenCV</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <div class="project-overlay">
+                        <span class="view-project">View Project →</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Vyakaran Engine</h3>
+                    <p>Sanskrit NLP tool for linguistic research, enabling automated grammatical analysis and text processing of Sanskrit literature.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">NLP</span>
+                        <span class="tag">Sanskrit</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <div class="project-overlay">
+                        <span class="view-project">View Project →</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Ganit Chakshu</h3>
+                    <p>Custom Python library for data handling, visualization, and insights generation. Simplifies complex data analysis workflows.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Data Science</span>
+                        <span class="tag">Visualization</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <div class="project-overlay">
+                        <span class="view-project">View Project →</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Matsya Jaal</h3>
+                    <p>Phishing email detection system using machine learning to identify and flag suspicious emails, protecting users from cyber threats.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">ML</span>
+                        <span class="tag">Security</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 5 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <div class="project-overlay">
+                        <span class="view-project">View Project →</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Physics Question Solver</h3>
+                    <p>Educational tool that solves basic physics problems step-by-step, helping students understand concepts through interactive learning.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Education</span>
+                        <span class="tag">AI</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 6 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <div class="project-overlay">
+                        <span class="view-project">View Project →</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Hinduism Vigyanam</h3>
+                    <p>Author of a comprehensive book exploring the intersection of Hindu philosophy and science, published on Brebooks.com.</p>
+                    <div class="project-tags">
+                        <span class="tag">Writing</span>
+                        <span class="tag">Philosophy</span>
+                        <span class="tag">Research</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+   </section>
+
+   <!-- Contact Section -->
+   <section id="contact">
+    <div class="container">
+        <h2 class="section-title">Let's Connect</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <p class="contact-description">
+                    Interested in collaborating on a project or just want to say hi? 
+                    Feel free to reach out through any of these channels.
+                </p>
+                <div class="contact-links">
+                    <a href="mailto:madhavprapanna@gmail.com" class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <span>madhavprapanna@gmail.com</span>
+                    </a>
+                    <a href="tel:+916397123932" class="contact-item">
+                        <span class="contact-icon">📱</span>
+                        <span>+91 6397123932</span>
+                    </a>
+                    <a href="#" class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span>Mathura, Uttar Pradesh</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+   </section>
+
+   <!-- Footer -->
+   <footer>
+    <div class="footer-content">
+        <p>&copy; 2025 Madhav Rimal. All rights reserved.</p>
+        <p class="footer-tagline">Built with passion & purpose</p>
+    </div>
+   </footer>
+
+   <script src="script.js"></script>
 </body>
 </html>
